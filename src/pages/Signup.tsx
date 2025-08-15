@@ -203,8 +203,10 @@ const Signup = () => {
                   </Label>
                 </div>
 
-                <Button size="lg" variant="hero" className="w-full">
-                  Start Free Trial
+                <Button size="lg" variant="hero" className="w-full" asChild>
+                  <Link to="/dashboard">
+                    Start Free Trial
+                  </Link>
                 </Button>
               </form>
 

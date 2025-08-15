@@ -86,8 +86,10 @@ const Login = () => {
                 </Link>
               </div>
 
-              <Button size="lg" variant="hero" className="w-full">
-                Sign In
+              <Button size="lg" variant="hero" className="w-full" asChild>
+                <Link to="/dashboard">
+                  Sign In
+                </Link>
               </Button>
             </form>
 
