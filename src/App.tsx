@@ -16,6 +16,10 @@ import Orders from "./pages/Orders";
 import ShopSelector from "./pages/ShopSelector";
 import Inventory from "./pages/Inventory";
 import PricingManagement from "./pages/PricingManagement";
+import RetailerManagement from "./pages/RetailerManagement";
+import CreditPayment from "./pages/CreditPayment";
+import HolidayCalendar from "./pages/HolidayCalendar";
+import ReportsInvoices from "./pages/ReportsInvoices";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +52,10 @@ const App = () => (
           <Route path="/shop-selector" element={<ShopSelector />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/pricing-management" element={<PricingManagement />} />
+          <Route path="/retailer-management" element={<RetailerManagement />} />
+          <Route path="/credit-payment" element={<CreditPayment />} />
+          <Route path="/holiday-calendar" element={<HolidayCalendar />} />
+          <Route path="/reports-invoices" element={<ReportsInvoices />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
