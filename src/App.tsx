@@ -14,6 +14,8 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Orders from "./pages/Orders";
 import ShopSelector from "./pages/ShopSelector";
+import Inventory from "./pages/Inventory";
+import PricingManagement from "./pages/PricingManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +46,8 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/shop-selector" element={<ShopSelector />} />
+          <Route path="/inventory" element={<Inventory />} />
+          <Route path="/pricing-management" element={<PricingManagement />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
