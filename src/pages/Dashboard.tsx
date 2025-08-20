@@ -117,8 +117,8 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
-              <Button variant="outline" className="w-full mt-4">
-                View All Orders
+              <Button variant="outline" className="w-full mt-4" asChild>
+                <Link to="/orders">View All Orders</Link>
               </Button>
             </CardContent>
           </Card>
@@ -131,21 +131,55 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2">
-                  <Package className="h-6 w-6" />
-                  <span className="text-sm">Add Product</span>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2" asChild>
+                  <Link to="/inventory">
+                    <Package className="h-6 w-6" />
+                    <span className="text-sm">Manage Inventory</span>
+                  </Link>
                 </Button>
-                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2">
-                  <Users className="h-6 w-6" />
-                  <span className="text-sm">Invite Retailer</span>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2" asChild>
+                  <Link to="/retailer-management">
+                    <Users className="h-6 w-6" />
+                    <span className="text-sm">Retailer Management</span>
+                  </Link>
                 </Button>
-                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2">
-                  <TrendingUp className="h-6 w-6" />
-                  <span className="text-sm">View Reports</span>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2" asChild>
+                  <Link to="/reports-invoices">
+                    <TrendingUp className="h-6 w-6" />
+                    <span className="text-sm">Reports & Invoices</span>
+                  </Link>
                 </Button>
-                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2">
-                  <Clock className="h-6 w-6" />
-                  <span className="text-sm">Update Inventory</span>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2" asChild>
+                  <Link to="/pricing-management">
+                    <Clock className="h-6 w-6" />
+                    <span className="text-sm">Pricing Management</span>
+                  </Link>
+                </Button>
+              </div>
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2" asChild>
+                  <Link to="/credit-payment">
+                    <DollarSign className="h-6 w-6" />
+                    <span className="text-sm">Credit & Payment</span>
+                  </Link>
+                </Button>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2" asChild>
+                  <Link to="/holiday-calendar">
+                    <Clock className="h-6 w-6" />
+                    <span className="text-sm">Holiday Calendar</span>
+                  </Link>
+                </Button>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2" asChild>
+                  <Link to="/shop-selector">
+                    <ShoppingCart className="h-6 w-6" />
+                    <span className="text-sm">Shop Selector</span>
+                  </Link>
+                </Button>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center space-y-2" asChild>
+                  <Link to="/admin">
+                    <Settings className="h-6 w-6" />
+                    <span className="text-sm">Admin Panel</span>
+                  </Link>
                 </Button>
               </div>
             </CardContent>

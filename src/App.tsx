@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import Admin from "./pages/Admin";
 import Orders from "./pages/Orders";
 import ShopSelector from "./pages/ShopSelector";
 import Inventory from "./pages/Inventory";
@@ -48,6 +49,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/shop-selector" element={<ShopSelector />} />
           <Route path="/inventory" element={<Inventory />} />
