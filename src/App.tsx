@@ -20,6 +20,7 @@ import PricingManagement from "./pages/PricingManagement";
 import RetailerManagement from "./pages/RetailerManagement";
 import CreditPayment from "./pages/CreditPayment";
 import HolidayCalendar from "./pages/HolidayCalendar";
+import InventoryConstraints from "./pages/InventoryConstraints";
 import ReportsInvoices from "./pages/ReportsInvoices";
 import NotFound from "./pages/NotFound";
 
@@ -57,6 +58,7 @@ const App = () => (
           <Route path="/retailer-management" element={<RetailerManagement />} />
           <Route path="/credit-payment" element={<CreditPayment />} />
           <Route path="/holiday-calendar" element={<HolidayCalendar />} />
+          <Route path="/inventory-constraints" element={<InventoryConstraints />} />
           <Route path="/reports-invoices" element={<ReportsInvoices />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
