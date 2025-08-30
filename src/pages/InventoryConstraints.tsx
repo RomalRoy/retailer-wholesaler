@@ -16,9 +16,12 @@ interface InventoryItem {
 
 interface DayConstraints {
   isHoliday: boolean;
+}
+
+interface ProductConstraints {
   minOrderValue: string;
   availability: string;
-  disabledItems: Set<string>;
+  isDisabled: boolean;
 }
 
 const InventoryConstraints = () => {
@@ -52,21 +55,34 @@ const InventoryConstraints = () => {
   const [days] = useState(getNext7Days());
   
   // Initialize constraints for each day
-  const [constraints, setConstraints] = useState<Record<string, DayConstraints>>(() => {
+  const [dayConstraints, setDayConstraints] = useState<Record<string, DayConstraints>>(() => {
     const initial: Record<string, DayConstraints> = {};
     days.forEach(day => {
       initial[day.key] = {
-        isHoliday: false,
-        minOrderValue: "",
-        availability: "100",
-        disabledItems: new Set()
+        isHoliday: false
       };
     });
     return initial;
   });
 
-  const updateConstraint = (dayKey: string, field: keyof Omit<DayConstraints, 'disabledItems'>, value: string | boolean) => {
-    setConstraints(prev => ({
+  // Initialize product constraints for each day and item
+  const [productConstraints, setProductConstraints] = useState<Record<string, Record<string, ProductConstraints>>>(() => {
+    const initial: Record<string, Record<string, ProductConstraints>> = {};
+    days.forEach(day => {
+      initial[day.key] = {};
+      items.forEach(item => {
+        initial[day.key][item.id] = {
+          minOrderValue: "",
+          availability: "100",
+          isDisabled: false
+        };
+      });
+    });
+    return initial;
+  });
+
+  const updateDayConstraint = (dayKey: string, field: keyof DayConstraints, value: boolean) => {
+    setDayConstraints(prev => ({
       ...prev,
       [dayKey]: {
         ...prev[dayKey],
@@ -75,23 +91,17 @@ const InventoryConstraints = () => {
     }));
   };
 
-  const toggleItemDisabled = (dayKey: string, itemId: string) => {
-    setConstraints(prev => {
-      const newDisabledItems = new Set(prev[dayKey].disabledItems);
-      if (newDisabledItems.has(itemId)) {
-        newDisabledItems.delete(itemId);
-      } else {
-        newDisabledItems.add(itemId);
-      }
-      
-      return {
-        ...prev,
-        [dayKey]: {
-          ...prev[dayKey],
-          disabledItems: newDisabledItems
+  const updateProductConstraint = (dayKey: string, itemId: string, field: keyof ProductConstraints, value: string | boolean) => {
+    setProductConstraints(prev => ({
+      ...prev,
+      [dayKey]: {
+        ...prev[dayKey],
+        [itemId]: {
+          ...prev[dayKey][itemId],
+          [field]: value
         }
-      };
-    });
+      }
+    }));
   };
 
   const handleSave = () => {
@@ -142,33 +152,10 @@ const InventoryConstraints = () => {
                   <div key={day.key} className="space-y-3">
                     <div className="flex items-center space-x-2">
                       <Switch
-                        checked={constraints[day.key]?.isHoliday || false}
-                        onCheckedChange={(checked) => updateConstraint(day.key, 'isHoliday', checked)}
+                        checked={dayConstraints[day.key]?.isHoliday || false}
+                        onCheckedChange={(checked) => updateDayConstraint(day.key, 'isHoliday', checked)}
                       />
                       <Label className="text-xs">Holiday</Label>
-                    </div>
-                    
-                    <div className="space-y-1">
-                      <Label className="text-xs">Min Order ($)</Label>
-                      <Input
-                        type="number"
-                        placeholder="0"
-                        value={constraints[day.key]?.minOrderValue || ""}
-                        onChange={(e) => updateConstraint(day.key, 'minOrderValue', e.target.value)}
-                        className="h-8 text-xs"
-                      />
-                    </div>
-                    
-                    <div className="space-y-1">
-                      <Label className="text-xs">Availability (%)</Label>
-                      <Input
-                        type="number"
-                        placeholder="100"
-                        value={constraints[day.key]?.availability || ""}
-                        onChange={(e) => updateConstraint(day.key, 'availability', e.target.value)}
-                        className="h-8 text-xs"
-                        max="100"
-                      />
                     </div>
                   </div>
                 ))}
@@ -184,16 +171,41 @@ const InventoryConstraints = () => {
                   </div>
                   
                   {days.map(day => (
-                    <div key={day.key} className="flex items-center justify-center">
+                    <div key={day.key} className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <Switch
-                          checked={!constraints[day.key]?.disabledItems.has(item.id)}
-                          onCheckedChange={() => toggleItemDisabled(day.key, item.id)}
-                          disabled={constraints[day.key]?.isHoliday}
+                          checked={!productConstraints[day.key]?.[item.id]?.isDisabled}
+                          onCheckedChange={(checked) => updateProductConstraint(day.key, item.id, 'isDisabled', !checked)}
+                          disabled={dayConstraints[day.key]?.isHoliday}
                         />
                         <Label className="text-xs">
-                          {constraints[day.key]?.disabledItems.has(item.id) ? "Disabled" : "Enabled"}
+                          {productConstraints[day.key]?.[item.id]?.isDisabled ? "Disabled" : "Enabled"}
                         </Label>
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <Label className="text-xs">Min Order ($)</Label>
+                        <Input
+                          type="number"
+                          placeholder="0"
+                          value={productConstraints[day.key]?.[item.id]?.minOrderValue || ""}
+                          onChange={(e) => updateProductConstraint(day.key, item.id, 'minOrderValue', e.target.value)}
+                          className="h-8 text-xs"
+                          disabled={dayConstraints[day.key]?.isHoliday || productConstraints[day.key]?.[item.id]?.isDisabled}
+                        />
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <Label className="text-xs">Availability (%)</Label>
+                        <Input
+                          type="number"
+                          placeholder="100"
+                          value={productConstraints[day.key]?.[item.id]?.availability || ""}
+                          onChange={(e) => updateProductConstraint(day.key, item.id, 'availability', e.target.value)}
+                          className="h-8 text-xs"
+                          max="100"
+                          disabled={dayConstraints[day.key]?.isHoliday || productConstraints[day.key]?.[item.id]?.isDisabled}
+                        />
                       </div>
                     </div>
                   ))}
@@ -206,7 +218,7 @@ const InventoryConstraints = () => {
 
       <div className="text-sm text-muted-foreground">
         <p>• Toggle holidays to automatically disable all items for that day</p>
-        <p>• Set minimum order values and availability percentages per day</p>
+        <p>• Set minimum order values and availability percentages per product per day</p>
         <p>• Individual items can be disabled for specific days</p>
       </div>
     </div>
