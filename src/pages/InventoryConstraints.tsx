@@ -185,26 +185,26 @@ const InventoryConstraints = () => {
                         </Label>
                       </div>
                       
-                      <div className="space-y-1">
-                        <Label className="text-xs">Min ($)</Label>
+                      <div className="flex items-center space-x-1">
+                        <Label className="text-xs w-8">Min ($)</Label>
                         <Input
                           type="number"
                           placeholder="0"
                           value={productConstraints[day.key]?.[item.id]?.minOrderValue || ""}
                           onChange={(e) => updateProductConstraint(day.key, item.id, 'minOrderValue', e.target.value)}
-                          className="h-6 text-xs px-2"
+                          className="h-6 text-xs px-2 flex-1"
                           disabled={dayConstraints[day.key]?.isHoliday || productConstraints[day.key]?.[item.id]?.isDisabled}
                         />
                       </div>
                       
-                      <div className="space-y-1">
-                        <Label className="text-xs">Avail (%)</Label>
+                      <div className="flex items-center space-x-1">
+                        <Label className="text-xs w-8">Avail (%)</Label>
                         <Input
                           type="number"
                           placeholder="100"
                           value={productConstraints[day.key]?.[item.id]?.availability || ""}
                           onChange={(e) => updateProductConstraint(day.key, item.id, 'availability', e.target.value)}
-                          className="h-6 text-xs px-2"
+                          className="h-6 text-xs px-2 flex-1"
                           max="100"
                           disabled={dayConstraints[day.key]?.isHoliday || productConstraints[day.key]?.[item.id]?.isDisabled}
                         />
