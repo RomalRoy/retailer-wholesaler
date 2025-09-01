@@ -146,14 +146,15 @@ const InventoryConstraints = () => {
               </div>
 
               {/* Global controls row */}
-              <div className="grid grid-cols-8 gap-4 mb-6 pb-4 border-b bg-muted/20 rounded-lg p-4">
-                <div className="font-medium">Day Settings</div>
+              <div className="grid grid-cols-8 gap-3 mb-4 pb-3 border-b bg-muted/20 rounded-lg p-3">
+                <div className="font-medium text-sm">Day Settings</div>
                 {days.map(day => (
-                  <div key={day.key} className="space-y-3">
-                    <div className="flex items-center space-x-2">
+                  <div key={day.key} className="space-y-2">
+                    <div className="flex items-center space-x-1.5">
                       <Switch
                         checked={dayConstraints[day.key]?.isHoliday || false}
                         onCheckedChange={(checked) => updateDayConstraint(day.key, 'isHoliday', checked)}
+                        className="h-4 w-7 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
                       />
                       <Label className="text-xs">Holiday</Label>
                     </div>
@@ -163,7 +164,7 @@ const InventoryConstraints = () => {
 
               {/* Items rows */}
               {items.map(item => (
-                <div key={item.id} className="grid grid-cols-8 gap-4 py-3 border-b hover:bg-muted/10">
+                <div key={item.id} className="grid grid-cols-8 gap-3 py-2 border-b hover:bg-muted/10">
                   <div className="flex flex-col">
                     <div className="font-medium text-sm">{item.name}</div>
                     <div className="text-xs text-muted-foreground">{item.sku}</div>
@@ -171,38 +172,39 @@ const InventoryConstraints = () => {
                   </div>
                   
                   {days.map(day => (
-                    <div key={day.key} className="space-y-2">
-                      <div className="flex items-center space-x-2">
+                    <div key={day.key} className="space-y-1.5">
+                      <div className="flex items-center space-x-1.5">
                         <Switch
                           checked={!productConstraints[day.key]?.[item.id]?.isDisabled}
                           onCheckedChange={(checked) => updateProductConstraint(day.key, item.id, 'isDisabled', !checked)}
                           disabled={dayConstraints[day.key]?.isHoliday}
+                          className="h-4 w-7 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
                         />
                         <Label className="text-xs">
-                          {productConstraints[day.key]?.[item.id]?.isDisabled ? "Disabled" : "Enabled"}
+                          {productConstraints[day.key]?.[item.id]?.isDisabled ? "Off" : "On"}
                         </Label>
                       </div>
                       
                       <div className="space-y-1">
-                        <Label className="text-xs">Min Order ($)</Label>
+                        <Label className="text-xs">Min ($)</Label>
                         <Input
                           type="number"
                           placeholder="0"
                           value={productConstraints[day.key]?.[item.id]?.minOrderValue || ""}
                           onChange={(e) => updateProductConstraint(day.key, item.id, 'minOrderValue', e.target.value)}
-                          className="h-8 text-xs"
+                          className="h-6 text-xs px-2"
                           disabled={dayConstraints[day.key]?.isHoliday || productConstraints[day.key]?.[item.id]?.isDisabled}
                         />
                       </div>
                       
                       <div className="space-y-1">
-                        <Label className="text-xs">Availability (%)</Label>
+                        <Label className="text-xs">Avail (%)</Label>
                         <Input
                           type="number"
                           placeholder="100"
                           value={productConstraints[day.key]?.[item.id]?.availability || ""}
                           onChange={(e) => updateProductConstraint(day.key, item.id, 'availability', e.target.value)}
-                          className="h-8 text-xs"
+                          className="h-6 text-xs px-2"
                           max="100"
                           disabled={dayConstraints[day.key]?.isHoliday || productConstraints[day.key]?.[item.id]?.isDisabled}
                         />
